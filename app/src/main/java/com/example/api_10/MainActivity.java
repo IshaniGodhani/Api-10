@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.location.Address;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -24,6 +25,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<DataModel> list = new ArrayList<>();
+    ArrayList<DataModel.Address> addressArrayList = new ArrayList<>();
+    ArrayList<DataModel.Company> companyArrayList = new ArrayList<>();
+    ArrayList<DataModel.Address.Geo> geoArrayList = new ArrayList<>();
 
     RecyclerView recyclerView;
     Recycler_Adapter recyclerAdapter;
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject address = mainObj.getJSONObject("address");
                         JSONObject company = mainObj.getJSONObject("company");
                         JSONObject geo = address.getJSONObject("geo");
-//                        Log.d("MMM", "onResponse: "+mainObj);
+                        Log.d("MMM", "onResponse: "+address);
 
                         Integer id=mainObj.getInt("id");
                         String name=mainObj.getString("name");
@@ -62,15 +66,28 @@ public class MainActivity extends AppCompatActivity {
                         list.add(model);
 
                        String street=address.getString("street");
-                       String suite=address.getString("suie");
+                       String suite=address.getString("suite");
                        String city=address.getString("city");
                        String zipcode=address.getString("zipcode");
+                       DataModel.Address adres=new DataModel.Address(street,suite,city,zipcode);
+                       addressArrayList.add(adres);
 
-                       DataModel adres=new DataModel(street,suite,city,zipcode);
-                       list.add(adres);
+                       String lat=geo.getString("lat");
+                       String lng=geo.getString("lng");
+                       DataModel.Address.Geo Geo=new DataModel.Address.Geo(lat,lng);
+                       geoArrayList.add(Geo);
+
+                       String Name=company.getString("name");
+                       String catchphrase=company.getString("catchPhrase");
+                       String bs=company.getString("bs");
+
+                       DataModel.Company company1=new DataModel.Company(Name,catchphrase,bs);
+                       companyArrayList.add(company1);
+
+
 
                     }
-                    recyclerAdapter=new Recycler_Adapter(MainActivity.this,list);
+                    recyclerAdapter=new Recycler_Adapter(MainActivity.this,list, addressArrayList,geoArrayList,companyArrayList);
                     LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MainActivity.this);
                     linearLayoutManager.setOrientation(linearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(linearLayoutManager);

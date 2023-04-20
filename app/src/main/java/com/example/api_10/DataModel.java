@@ -1,22 +1,23 @@
 package com.example.api_10;
 
 public class DataModel {
+
     private Integer id;
     private String name;
     private String username;
     private String email;
-    private String address;
+    private DataModel.Address address;
     private String phone;
     private String website;
     private Company company;
 
-    public DataModel(String name, String username, String email, String address)
+    public DataModel(String name, String username, String email, DataModel.Address address)
     {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
-        this.address = address;
+        this.address=address;
         this.phone = phone;
         this.website = website;
         this.company = company;
@@ -29,6 +30,7 @@ public class DataModel {
         this.phone=phone;
         this.website=website;
     }
+
 
     public Integer getId() {
         return id;
@@ -62,11 +64,11 @@ public class DataModel {
         this.email = email;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -108,8 +110,15 @@ public class DataModel {
                 '}';
     }
 
-    public class Address {
+    public static class Address {
 
+        public Address(String street, String suite, String city, String zipcode, Geo geo) {
+            this.street = street;
+            this.suite = suite;
+            this.city = city;
+            this.zipcode = zipcode;
+            this.geo = geo;
+        }
 
         private String street;
 
@@ -120,6 +129,13 @@ public class DataModel {
         private String zipcode;
 
         private Geo geo;
+
+        public Address(String street, String suite, String city, String zipcode) {
+            this.street = street;
+            this.suite = suite;
+            this.city = city;
+            this.zipcode = zipcode;
+        }
 
         public String getStreet() {
             return street;
@@ -160,11 +176,45 @@ public class DataModel {
         public void setGeo(Geo geo) {
             this.geo = geo;
         }
+        public static class Geo
+        {
+            public Geo(String lat, String lng)
+            {
+                this.lat = lat;
+                this.lng = lng;
+            }
+
+            private String lat;
+            private String lng;
+
+            public String getLat() {
+                return lat;
+            }
+
+            public void setLat(String lat) {
+                this.lat = lat;
+            }
+
+            public String getLng() {
+                return lng;
+            }
+
+            public void setLng(String lng) {
+                this.lng = lng;
+            }
+
+        }
 
     }
 
 
-    public class Company {
+    public static class Company {
+        public Company(String name, String catchPhrase, String bs) {
+            this.name = name;
+            this.catchPhrase = catchPhrase;
+            this.bs = bs;
+        }
+
         private String name;
         private String catchPhrase;
         private String bs;
@@ -195,25 +245,5 @@ public class DataModel {
 
     }
 
-    public class Geo {
-        private String lat;
-        private String lng;
 
-        public String getLat() {
-            return lat;
-        }
-
-        public void setLat(String lat) {
-            this.lat = lat;
-        }
-
-        public String getLng() {
-            return lng;
-        }
-
-        public void setLng(String lng) {
-            this.lng = lng;
-        }
-
-    }
 }
